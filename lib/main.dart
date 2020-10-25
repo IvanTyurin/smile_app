@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'SmileButton.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,9 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
+            SmileButton(buttonSize: 60, title: "My btn", isEnabled: false),
           ],
         ),
       ),
