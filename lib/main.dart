@@ -36,7 +36,12 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SmileButton(buttonSize: 100, title: "My btn", isEnabled: false),
+            SmileButton(
+              buttonSize: 100,
+              title: "My btn",
+              isEnabled: false,
+              onTap: (state) { print(state); },
+            ),
           ],
         ),
       ),

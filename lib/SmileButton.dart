@@ -8,6 +8,7 @@ class SmileButton extends StatefulWidget {
   final Color accentColor;
   final bool isEnabled;
 
+  final void Function(bool state) onTap;
 
   SmileButton({
     Key key,
@@ -16,7 +17,7 @@ class SmileButton extends StatefulWidget {
     this.accentColor,
     this.filColor,
     this.activeColor,
-
+    this.onTap,
     @required this.isEnabled
   }) : super(key: key);
   
@@ -112,18 +113,18 @@ class _SmileButtonState extends State<SmileButton> {
     (widget.filColor != null) ? _buttonFilColor = widget.filColor : _buttonFilColor = Colors.lightGreenAccent.shade700;
     (widget.accentColor != null) ? _buttonAccentColor = widget.accentColor : _buttonAccentColor = Colors.red.shade900;
     if(onTaped) {
-      (widget.accentColor != null) ? _buttonAccentColor = widget.accentColor : _buttonAccentColor = Colors.white54;
+      (widget.accentColor != null) ? _buttonAccentColor = widget.accentColor : _buttonAccentColor = Colors.white70;
     } else {
       (widget.accentColor != null) ? _buttonAccentColor = widget.accentColor : _buttonAccentColor = Colors.red.shade900;
     }
   }
 
   void _onButtonTap() {
-    print("Hi!!");
     onTaped = !onTaped;
     setState(() {
       _buttonSetup();
     });
+    if(widget.onTap != null) widget.onTap(onTaped);
   }
 }
 
