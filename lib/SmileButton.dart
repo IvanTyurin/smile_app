@@ -7,20 +7,22 @@ class SmileButton extends StatefulWidget {
   final Color activeColor;
   final Color accentColor;
   final bool isEnabled;
+  final String imagePath;
 
   final void Function(bool state) onTap;
 
-  SmileButton({
-    Key key,
-    this.buttonSize,
-    this.title,
-    this.accentColor,
-    this.filColor,
-    this.activeColor,
-    this.onTap,
-    @required this.isEnabled
-  }) : super(key: key);
-  
+  SmileButton(
+      {Key key,
+      this.buttonSize,
+      this.imagePath,
+      this.title,
+      this.accentColor,
+      this.filColor,
+      this.activeColor,
+      this.onTap,
+      this.isEnabled})
+      : super(key: key);
+
   @override
   _SmileButtonState createState() {
     return _SmileButtonState();
@@ -28,9 +30,11 @@ class SmileButton extends StatefulWidget {
 }
 
 class _SmileButtonState extends State<SmileButton> {
-  bool onTaped = false;
+  bool _onTaped = false;
+  bool _buttonIsEnabled;
 
   String _buttonTitle;
+  String _pathToImage;
   double _trueButtonSize;
   Color _buttonFilColor;
   Color _buttonAccentColor;
@@ -40,24 +44,22 @@ class _SmileButtonState extends State<SmileButton> {
     _buttonSetup();
 
     return Container(
-      child: GestureDetector(
-        onTap: _onButtonTap,
-        child: ClipOval(
+        child: GestureDetector(
+      onTap: _onButtonTap,
+      child: ClipOval(
           child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                width: 2.0,
-                color: Colors.black87,
-              ),
-              borderRadius: BorderRadius.all(Radius.circular((_trueButtonSize+4)/2))
+        decoration: BoxDecoration(
+            border: Border.all(
+              width: 2.0,
+              color: Colors.grey.shade700,
             ),
-            child: ClipOval(
-              child: _buttonBodyBuilder(),
-            ),
-          )
+            borderRadius:
+                BorderRadius.all(Radius.circular((_trueButtonSize + 4) / 2))),
+        child: ClipOval(
+          child: _buttonBodyBuilder(),
         ),
-      )
-    );
+      )),
+    ));
   }
 
   Widget _buttonBodyBuilder() {
@@ -68,76 +70,93 @@ class _SmileButtonState extends State<SmileButton> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Container(
-            constraints: BoxConstraints(
-              minHeight: _trueButtonSize/3,
-            ),
-            child: Image(
-              image: AssetImage('assets/happy.png'),
-              height: _trueButtonSize/3,
-              color: _buttonAccentColor,
-            ),
-            alignment: Alignment.bottomCenter,
-          ),
-          Container(
-            height: 16,
-            child: Text(
-              '$_buttonTitle',
-              style: TextStyle(
-                  color: _buttonAccentColor
-              ),
-            ),
-            alignment: Alignment.bottomCenter,
-          ),
-          Container(
-            constraints: BoxConstraints(
-                minHeight: _trueButtonSize/4
-            ),
-            child: ClipOval(
-              child: Container(
-                width: _trueButtonSize/2.5,
-                height: _trueButtonSize/7,
-                color: _buttonAccentColor,
-              ),
-            ),
-            alignment: Alignment.center,
-          ),
+          _buildImage(),
+          _buidTitle(),
+          _buildShadow(),
         ],
       ),
     );
   }
 
+  Widget _buildImage() {
+    return Container(
+      constraints: BoxConstraints(
+        minHeight: _trueButtonSize / 3,
+      ),
+      child: Image(
+        image: AssetImage('$_pathToImage'),
+        height: _trueButtonSize / 3,
+        color: _buttonAccentColor,
+      ),
+      alignment: Alignment.bottomCenter,
+    );
+  }
+
+  Widget _buidTitle() {
+    return Container(
+      height: 16,
+      child: Text(
+        '$_buttonTitle',
+        style: TextStyle(color: _buttonAccentColor),
+      ),
+      alignment: Alignment.bottomCenter,
+    );
+  }
+
+  Widget _buildShadow() {
+    return Container(
+      constraints: BoxConstraints(minHeight: _trueButtonSize / 4),
+      child: ClipOval(
+        child: Container(
+          width: _trueButtonSize / 2.5,
+          height: _trueButtonSize / 7,
+          color: _buttonAccentColor,
+        ),
+      ),
+      alignment: Alignment.center,
+    );
+  }
+
   void _buttonSetup() {
-    (widget.buttonSize > 60) ? _trueButtonSize = widget.buttonSize : _trueButtonSize = 60;
+    (widget.isEnabled == null || widget.isEnabled == true)
+        ? _buttonIsEnabled = true
+        : _buttonIsEnabled = false;
+
+    (widget.buttonSize > 60)
+        ? _trueButtonSize = widget.buttonSize
+        : _trueButtonSize = 60;
     (widget.title != null) ? _buttonTitle = widget.title : _buttonTitle = "";
-    (widget.filColor != null) ? _buttonFilColor = widget.filColor : _buttonFilColor = Colors.lightGreenAccent.shade700;
-    (widget.accentColor != null) ? _buttonAccentColor = widget.accentColor : _buttonAccentColor = Colors.red.shade900;
-    if(onTaped) {
-      (widget.accentColor != null) ? _buttonAccentColor = widget.accentColor : _buttonAccentColor = Colors.white70;
+    (widget.filColor != null)
+        ? _buttonFilColor = widget.filColor
+        : _buttonFilColor = Colors.lightGreenAccent.shade700;
+    (widget.imagePath != null)
+        ? _pathToImage = widget.imagePath
+        : _pathToImage = "";
+
+    if (_buttonIsEnabled) {
+      if (_onTaped) {
+        (widget.accentColor != null)
+            ? _buttonAccentColor = widget.accentColor
+            : _buttonAccentColor = Colors.white;
+      } else {
+        (widget.accentColor != null)
+            ? _buttonAccentColor = widget.accentColor
+            : _buttonAccentColor = Colors.red.shade900;
+      }
     } else {
-      (widget.accentColor != null) ? _buttonAccentColor = widget.accentColor : _buttonAccentColor = Colors.red.shade900;
+      (widget.accentColor != null)
+          ? _buttonAccentColor = widget.accentColor
+          : _buttonAccentColor = Colors.pinkAccent.shade100;
     }
   }
 
   void _onButtonTap() {
-    onTaped = !onTaped;
-    setState(() {
-      _buttonSetup();
-    });
-    if(widget.onTap != null) widget.onTap(onTaped);
+    if (_buttonIsEnabled) {
+      _onTaped = !_onTaped;
+      setState(() {
+        _buttonSetup();
+      });
+      if (widget.onTap != null) widget.onTap(_onTaped);
+    }
   }
-}
-
-class SmilePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    var paint = Paint()
-      ..color = Colors.amber
-      ..style = PaintingStyle.fill;
-    canvas.drawCircle(Offset(100, 100), 50, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
-
 }
