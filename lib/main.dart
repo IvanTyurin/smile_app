@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'SmileButton.dart';
+import 'RadioSmileButton.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,6 +27,40 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<SmileButton> buttonsInRadio = [];
+
+  @override
+  void initState() {
+    super.initState();
+    buttonsInRadio.add(
+        SmileButton(
+          imagePath: "assets/happy.png",
+          buttonSize: 100,
+        title: "First",
+        onTap: (state) {
+          print(state);
+        },
+      ));
+    buttonsInRadio.add(
+        SmileButton(
+          imagePath: "assets/happy.png",
+          buttonSize: 100,
+          title: "Second",
+          onTap: (state) {
+            print(state);
+          },
+        ));
+    buttonsInRadio.add(
+        SmileButton(
+          imagePath: "assets/happy.png",
+          buttonSize: 100,
+          title: "Third",
+          onTap: (state) {
+            print(state);
+          },
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 print(state);
               },
             ),
+            RadioSmileButton(buttonsList: buttonsInRadio,),
           ],
         ),
       ),
