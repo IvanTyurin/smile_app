@@ -79,7 +79,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 print(state);
               },
             ),
-            RadioSmileButton(buttonsList: buttonsInRadio,),
+            RadioSmileButton(
+              count: 3,
+              buttonSize: 80,
+              titles: ["First", "Second", "Third"],
+              imagesPaths: ["assets/happy.png", "assets/happy.png", "assets/happy.png"],
+              onChanged: (state, index) {
+                print("Button # $index, in state $state");
+              },
+            ),
           ],
         ),
       ),

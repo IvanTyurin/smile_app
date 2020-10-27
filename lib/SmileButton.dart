@@ -9,7 +9,7 @@ class SmileButton extends StatefulWidget {
   final bool isEnabled;
   final String imagePath;
 
-  void Function(bool state) onTap;
+  final void Function(bool state) onTap;
 
   SmileButton(
       {Key key,
