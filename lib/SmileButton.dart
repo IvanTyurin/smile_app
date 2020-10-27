@@ -9,7 +9,7 @@ class SmileButton extends StatefulWidget {
   final bool isEnabled;
   final String imagePath;
 
-  final void Function(bool state) onTap;
+  void Function(bool state) onTap;
 
   SmileButton(
       {Key key,
@@ -30,6 +30,7 @@ class SmileButton extends StatefulWidget {
 }
 
 class _SmileButtonState extends State<SmileButton> {
+  double _borderWidth = 2.0;
   bool _onTaped = false;
   bool _buttonIsEnabled;
 
@@ -50,11 +51,11 @@ class _SmileButtonState extends State<SmileButton> {
           child: Container(
         decoration: BoxDecoration(
             border: Border.all(
-              width: 2.0,
+              width: _borderWidth,
               color: Colors.grey.shade700,
             ),
             borderRadius:
-                BorderRadius.all(Radius.circular((_trueButtonSize + 4) / 2))),
+                BorderRadius.all(Radius.circular((_trueButtonSize + _borderWidth * 2) / 2))),
         child: ClipOval(
           child: _buttonBodyBuilder(),
         ),
