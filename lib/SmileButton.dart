@@ -11,6 +11,7 @@ class SmileButton extends StatefulWidget {
 
   final void Function(bool state) onTap;
 
+
   SmileButton(
       {Key key,
       this.buttonSize,
@@ -24,12 +25,12 @@ class SmileButton extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SmileButtonState createState() {
-    return _SmileButtonState();
+  SmileButtonState createState() {
+    return SmileButtonState();
   }
 }
 
-class _SmileButtonState extends State<SmileButton> {
+class SmileButtonState extends State<SmileButton> {
   double _borderWidth = 2.0;
   bool _onTaped = false;
   bool _buttonIsEnabled;
@@ -72,7 +73,7 @@ class _SmileButtonState extends State<SmileButton> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           _buildImage(),
-          _buidTitle(),
+          _buildTitle(),
           _buildShadow(),
         ],
       ),
@@ -93,7 +94,7 @@ class _SmileButtonState extends State<SmileButton> {
     );
   }
 
-  Widget _buidTitle() {
+  Widget _buildTitle() {
     return Container(
       height: 16,
       child: Text(
@@ -158,6 +159,15 @@ class _SmileButtonState extends State<SmileButton> {
         _buttonSetup();
       });
       if (widget.onTap != null) widget.onTap(_onTaped);
+    }
+  }
+
+  void disable() {
+    if (_onTaped) {
+      _onTaped = false;
+      setState(() {
+        _buttonSetup();
+      });
     }
   }
 }

@@ -42,16 +42,26 @@ class _RadioSmileButtonState extends State<RadioSmileButton> {
 
   List<Widget> _radioButtonsBuild() {
     List<Widget> buttons = [];
+    List<GlobalKey> _buttonsKeys = [];
+
     if(widget.count == widget.titles.length && widget.count == widget.imagesPaths.length) {
       for (int i = 0; i < widget.count; i++) {
+        GlobalKey _buttonKey = new GlobalKey();
+        print(_buttonKey);
+        _buttonsKeys.add(_buttonKey);
         buttons.add(Container(
           child: SmileButton(
+            key: _buttonKey,
               imagePath: widget.imagesPaths[i],
               buttonSize: widget.buttonSize,
               title: widget.titles[i],
               onTap: (state) {
                 int index = i;
-                widget.onChanged(state, index);
+                for(int j = 0; j < widget.count; j++) {
+                  if(j != i) {
+                    (_buttonsKeys[j].currentState as SmileButtonState).disable();
+                  }
+                }
               }
           ),
         ));
