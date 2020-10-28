@@ -11,7 +11,6 @@ class SmileButton extends StatefulWidget {
 
   final void Function(bool state) onTap;
 
-
   SmileButton(
       {Key key,
       this.buttonSize,
@@ -55,8 +54,8 @@ class SmileButtonState extends State<SmileButton> {
               width: _borderWidth,
               color: Colors.grey.shade700,
             ),
-            borderRadius:
-                BorderRadius.all(Radius.circular((_trueButtonSize + _borderWidth * 2) / 2))),
+            borderRadius: BorderRadius.all(
+                Radius.circular((_trueButtonSize + _borderWidth * 2) / 2))),
         child: ClipOval(
           child: _buttonBodyBuilder(),
         ),
@@ -146,9 +145,7 @@ class SmileButtonState extends State<SmileButton> {
             : _buttonAccentColor = Colors.red.shade900;
       }
     } else {
-      (widget.accentColor != null)
-          ? _buttonAccentColor = widget.accentColor
-          : _buttonAccentColor = Colors.pinkAccent.shade100;
+      _buttonAccentColor = Colors.pinkAccent.shade100;
     }
   }
 
@@ -169,5 +166,12 @@ class SmileButtonState extends State<SmileButton> {
         _buttonSetup();
       });
     }
+  }
+
+  void saveState(bool state) {
+    _onTaped = state;
+    setState(() {
+      _buttonSetup();
+    });
   }
 }

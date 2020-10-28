@@ -27,7 +27,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,15 +41,17 @@ class _MyHomePageState extends State<MyHomePage> {
               imagePath: "assets/happy.png",
               buttonSize: 100,
               title: "My btn",
-              onTap: (state) {
-                print(state);
-              },
+              onTap: (state) {},
             ),
             RadioSmileButton(
               count: 3,
               buttonSize: 80,
               titles: ["First", "Second", "Third"],
-              imagesPaths: ["assets/happy.png", "assets/happy.png", "assets/happy.png"],
+              imagesPaths: [
+                "assets/happy.png",
+                "assets/happy.png",
+                "assets/happy.png"
+              ],
               onChanged: (state, index) {
                 print("Button # $index, in state $state");
               },

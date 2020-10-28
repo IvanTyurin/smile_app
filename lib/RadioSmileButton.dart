@@ -32,7 +32,6 @@ class RadioSmileButton extends StatefulWidget {
 }
 
 class _RadioSmileButtonState extends State<RadioSmileButton> {
-  bool _canChanged = true;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -44,26 +43,32 @@ class _RadioSmileButtonState extends State<RadioSmileButton> {
     List<Widget> buttons = [];
     List<GlobalKey> _buttonsKeys = [];
 
-    if(widget.count == widget.titles.length && widget.count == widget.imagesPaths.length) {
+    if (widget.count == widget.titles.length &&
+        widget.count == widget.imagesPaths.length) {
       for (int i = 0; i < widget.count; i++) {
         GlobalKey _buttonKey = new GlobalKey();
         print(_buttonKey);
         _buttonsKeys.add(_buttonKey);
         buttons.add(Container(
           child: SmileButton(
-            key: _buttonKey,
+              key: _buttonKey,
               imagePath: widget.imagesPaths[i],
               buttonSize: widget.buttonSize,
               title: widget.titles[i],
               onTap: (state) {
                 int index = i;
-                for(int j = 0; j < widget.count; j++) {
-                  if(j != i) {
-                    (_buttonsKeys[j].currentState as SmileButtonState).disable();
+                if (!state) {
+                  (_buttonsKeys[i].currentState as SmileButtonState)
+                      .saveState(!state);
+                }
+                for (int j = 0; j < widget.count; j++) {
+                  if (j != i) {
+                    (_buttonsKeys[j].currentState as SmileButtonState)
+                        .disable();
                   }
                 }
-              }
-          ),
+                widget.onChanged(state, index);
+              }),
         ));
       }
     }
