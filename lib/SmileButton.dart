@@ -5,7 +5,8 @@ class SmileButton extends StatefulWidget {
   final String title;
   final Color filColor;
   final Color activeColor;
-  final Color accentColor;
+  final Color inactiveColor;
+  final Color disableColor;
   final bool isEnabled;
   final String imagePath;
 
@@ -14,13 +15,14 @@ class SmileButton extends StatefulWidget {
   SmileButton(
       {Key key,
       this.buttonSize,
-      this.imagePath,
-      this.title,
-      this.accentColor,
+      this.imagePath = "",
+      this.title = "",
       this.filColor,
-      this.activeColor,
+      this.activeColor = Colors.white,
+      this.inactiveColor = Colors.red,
+      this.disableColor = Colors.pinkAccent,
       this.onTap,
-      this.isEnabled})
+      this.isEnabled = true})
       : super(key: key);
 
   @override
@@ -43,6 +45,7 @@ class SmileButtonState extends State<SmileButton> {
   @override
   Widget build(BuildContext context) {
     _buttonSetup();
+    double _borderRadius = (_trueButtonSize + _borderWidth * 2) / 2;
 
     return Container(
         child: GestureDetector(
@@ -54,8 +57,7 @@ class SmileButtonState extends State<SmileButton> {
               width: _borderWidth,
               color: Colors.grey.shade700,
             ),
-            borderRadius: BorderRadius.all(
-                Radius.circular((_trueButtonSize + _borderWidth * 2) / 2))),
+            borderRadius: BorderRadius.all(Radius.circular(_borderRadius))),
         child: ClipOval(
           child: _buttonBodyBuilder(),
         ),
@@ -80,13 +82,15 @@ class SmileButtonState extends State<SmileButton> {
   }
 
   Widget _buildImage() {
+    double _columnPartHeight = _trueButtonSize / 3;
+
     return Container(
       constraints: BoxConstraints(
-        minHeight: _trueButtonSize / 3,
+        minHeight: _columnPartHeight,
       ),
       child: Image(
         image: AssetImage('$_pathToImage'),
-        height: _trueButtonSize / 3,
+        height: _columnPartHeight,
         color: _buttonAccentColor,
       ),
       alignment: Alignment.bottomCenter,
@@ -105,12 +109,16 @@ class SmileButtonState extends State<SmileButton> {
   }
 
   Widget _buildShadow() {
+    double _minHeightConstraint = _trueButtonSize / 4;
+    double _shadowWith = _trueButtonSize / 2.5;
+    double _shadowHeight = _trueButtonSize / 7;
+
     return Container(
-      constraints: BoxConstraints(minHeight: _trueButtonSize / 4),
+      constraints: BoxConstraints(minHeight: _minHeightConstraint),
       child: ClipOval(
         child: Container(
-          width: _trueButtonSize / 2.5,
-          height: _trueButtonSize / 7,
+          width: _shadowWith,
+          height: _shadowHeight,
           color: _buttonAccentColor,
         ),
       ),
@@ -119,33 +127,26 @@ class SmileButtonState extends State<SmileButton> {
   }
 
   void _buttonSetup() {
-    (widget.isEnabled == null || widget.isEnabled == true)
-        ? _buttonIsEnabled = true
-        : _buttonIsEnabled = false;
+    _pathToImage = widget.imagePath;
+    _buttonTitle = widget.title;
+    _buttonIsEnabled = widget.isEnabled;
 
     (widget.buttonSize > 60)
         ? _trueButtonSize = widget.buttonSize
         : _trueButtonSize = 60;
-    (widget.title != null) ? _buttonTitle = widget.title : _buttonTitle = "";
+
     (widget.filColor != null)
         ? _buttonFilColor = widget.filColor
         : _buttonFilColor = Colors.lightGreenAccent.shade700;
-    (widget.imagePath != null)
-        ? _pathToImage = widget.imagePath
-        : _pathToImage = "";
 
     if (_buttonIsEnabled) {
       if (_onTaped) {
-        (widget.accentColor != null)
-            ? _buttonAccentColor = widget.accentColor
-            : _buttonAccentColor = Colors.white;
+        _buttonAccentColor = widget.activeColor;
       } else {
-        (widget.accentColor != null)
-            ? _buttonAccentColor = widget.accentColor
-            : _buttonAccentColor = Colors.red.shade900;
+        _buttonAccentColor = widget.inactiveColor;
       }
     } else {
-      _buttonAccentColor = Colors.pinkAccent.shade100;
+      _buttonAccentColor = widget.disableColor;
     }
   }
 

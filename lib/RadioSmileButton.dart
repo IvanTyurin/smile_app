@@ -47,7 +47,7 @@ class _RadioSmileButtonState extends State<RadioSmileButton> {
         widget.count == widget.imagesPaths.length) {
       for (int i = 0; i < widget.count; i++) {
         GlobalKey _buttonKey = new GlobalKey();
-        print(_buttonKey);
+
         _buttonsKeys.add(_buttonKey);
         buttons.add(Container(
           child: SmileButton(
