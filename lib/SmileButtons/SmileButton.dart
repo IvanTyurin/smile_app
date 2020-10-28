@@ -14,7 +14,7 @@ class SmileButton extends StatefulWidget {
 
   SmileButton(
       {Key key,
-      this.buttonSize,
+      this.buttonSize = 60,
       this.imagePath = "",
       this.title = "",
       this.filColor,
@@ -49,7 +49,7 @@ class SmileButtonState extends State<SmileButton> {
 
     return Container(
         child: GestureDetector(
-      onTap: _onButtonTap,
+      onTap: onButtonTap,
       child: ClipOval(
           child: Container(
         decoration: BoxDecoration(
@@ -59,13 +59,13 @@ class SmileButtonState extends State<SmileButton> {
             ),
             borderRadius: BorderRadius.all(Radius.circular(_borderRadius))),
         child: ClipOval(
-          child: _buttonBodyBuilder(),
+          child: buttonBodyBuilder(),
         ),
       )),
     ));
   }
 
-  Widget _buttonBodyBuilder() {
+  Widget buttonBodyBuilder() {
     return Container(
       color: _buttonFilColor,
       height: _trueButtonSize,
@@ -150,7 +150,7 @@ class SmileButtonState extends State<SmileButton> {
     }
   }
 
-  void _onButtonTap() {
+  void onButtonTap() {
     if (_buttonIsEnabled) {
       _onTaped = !_onTaped;
       setState(() {

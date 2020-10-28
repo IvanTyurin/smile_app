@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'SmileButton.dart';
-import 'RadioSmileButton.dart';
+import 'SmileButtons/SmileButton.dart';
+import 'SmileButtons/RadioSmileButton.dart';
+import 'SmileButtons/AnimatedButton.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -18,6 +19,10 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            AnimatedButton(
+              buttonSize: 300,
+              onTap: (state) {},
+            ),
             SmileButton(
               imagePath: "assets/happy.png",
               buttonSize: 100,
